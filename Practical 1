@@ -1,0 +1,153 @@
+#include<iostream>
+#include<cstring>
+#define max 10
+using namespace std;
+
+struct client
+{
+	int phn_no;
+	char name[10];
+
+};//end of structure 	
+
+class hashtable
+{
+	client ht[max];
+	
+	public:
+		hashtable()	//constructor
+		{
+			for(int i=0;i<max;i++)
+			{
+				ht[i].phn_no=0;
+				
+			}
+		}		
+		void insert();
+		void display();
+		int search(int);
+		int del(int);
+		int hash(int);
+};//end of class
+
+void hashtable::insert()
+{
+	client c;
+	int i;
+	char C;
+	do
+	{
+		cout<<"\n Enter Phone Number:";
+		cin>>c.phn_no;
+		i=hash(c.phn_no);
+	
+		if(ht[i].phn_no==0)
+		{
+			ht[i]=c;
+		}
+		else
+		{
+			for(int i=i++;i%max!=i;i++)
+			{
+				ht[i]=c;
+				break;
+			}
+		}
+	
+	}while(C=='y' || C=='Y');	
+}//end  of insert
+
+int hashtable::hash(int key)
+{
+	return(key%max);
+}//end of hash
+
+void hashtable::display()
+{
+	cout<<"---------------";
+	cout<<"\nSrno\tPhone number\n";
+	cout<<"---------------\n";
+	for(int i=0;i<max;i++)
+	{
+		cout<<i<<"\t"<<ht[i].phn_no<<endl;
+	}
+	cout<<"---------------------\n";
+}//end of display
+
+int hashtable::search(int x)
+{
+	int iFlag=0; 
+	cout<<"Enter Phone number to be searched:";
+	cin>>x;
+	for(int i=0;i<max;i++)
+	{
+		if(ht[i].phn_no==x)
+		{
+			cout<<"\n Phone Number Found at position "<<i;
+			iFlag=1;
+		}
+	}
+	if(iFlag==0)
+	cout<<"\n Phone Number Not Found";
+}  //end of search
+
+int hashtable::del(int s)
+{
+	int iF=0;
+	cout<<"\n Enter phone number to be deleted:";
+	cin>>s;
+	for(int i=0;i<max;i++)
+	{
+		if(ht[i].phn_no==s)
+		{
+			
+			ht[i].phn_no=0;
+			cout<<"\n Phone number found and deleted";
+			iF=1;
+		}
+	}
+	if(iF==0)
+	cout<<"\n Phone number not found";
+
+} //end of del	
+
+int main()
+{
+	int y,s,iCh;
+	hashtable h;
+	do
+	{
+		cout<<"\n--------------\n";
+		cout<<"\n1.INSERT\n2.DISPLAY\n3.SEARCH\n4.DELETE\n5.EXIT\n\n";
+		cout<<"Enter your choice:";
+		cin>>iCh;
+		cout<<"\n";
+		
+		switch(iCh)
+		{
+			case 1://insert
+				h.insert();
+				cout<<"\n";
+				break;
+				
+			case 2://display
+				h.display();
+				cout<<"\n";
+				break;
+				
+			case 3://search					
+				h.search(y);
+				cout<<"\n";
+				break;
+				
+			case 4://delete
+				h.del(s);
+				cout<<"\n";
+				break;
+				
+			case 5://exit
+				break;
+		}//end of switch
+	}while(iCh!=5);//end of do							
+return 0;
+}
